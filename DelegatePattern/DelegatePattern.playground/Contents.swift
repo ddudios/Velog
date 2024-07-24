@@ -13,7 +13,12 @@ class TextField {
     }
     
     func enter(contents: String) {
-        delegate?.textFieldShouldReturn(textField: contents)
+        guard let returnValue = delegate?.textFieldShouldReturn(textField: contents) else { return }
+        if returnValue {
+            print("엔터키 사용 가능")
+        } else {
+            print("엔터키 사용 불가")
+        }
     }
 }
 
@@ -28,10 +33,8 @@ class ViewController: TextFieldDelegate {
     
     func textFieldShouldReturn(textField: String) -> Bool {
         if textField == "" {
-            print("엔터키 사용 불가")
             return false
         } else {
-            print("엔터키 사용 가능")
             return true
         }
     }
@@ -69,8 +72,10 @@ textField.enter(contents: "")
 // textField의 delegate를 website로 변경하면
 // 유저가 검색창에 입력을 시작했다
 // 검색어를 입력하세요
+// 엔터키 사용 불가
 
 searchBar.type()
 searchBar.enter(contents: "검색어")
 // 유저가 검색창에 입력을 시작했다
 // 검색 결과
+// 엔터키 사용 가능
